@@ -12,3 +12,5 @@ rsync --exclude ".git/" \
     --exclude "LICENSE-MIT.txt" \
     -avh --no-perms . ~;
     source ~/.zshrc;
+
+exec ./fonts/install.sh
