@@ -1,0 +1,14 @@
+# ~/.tmuxinator/3pane.yml
+#
+name: 3pane
+root: .
+#
+# pre_window: rbenv shell 1.9.3-p194
+#
+windows:
+    - editor:
+        layout: 5e9d,220x59,0,0{133x59,0,0,11,86x59,134,0[86x42,134,0,12,86x16,134,43,13]} 
+        panes:
+            - vim
+            -
+            - 

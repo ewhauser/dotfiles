@@ -1,0 +1,13 @@
+# ~/.tmuxinator/2pane.yml
+#
+name: 2pane
+root: .
+#
+# pre_window: rbenv shell 1.9.3-p194
+#
+windows:
+    - editor:
+        layout: d59a,220x59,0,0[220x44,0,0,19,220x14,0,45,20]] 
+        panes:
+            - 
+            - 

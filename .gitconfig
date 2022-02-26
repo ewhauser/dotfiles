@@ -1,0 +1,45 @@
+[alias]
+  ci = commit
+  st = status
+  co = checkout
+  amend = commit --amend
+  oneline = log --pretty=oneline
+  br = branch
+  la = log --pretty=\"format:%ad %h (%an): %s\" --date=short
+  lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+  abbr = "!sh -c 'git rev-list --all | grep ^$1 | while read commit; do git --no-pager log -n1 --pretty=format:\"%H %ci %an %s%n\" $commit; done' -"
+  branches = branch -a --color -v
+  lc = log ORIG_HEAD.. --stat --no-merges
+  mybranches = "!f() { if test $# = 0 ; then set -- refs/remotes ; fi ; git for-each-ref --format='%(authordate:relative)\t%(refname:short)\t%(authoremail)' --sort=authordate \"$@\" | sed -ne \"s/\t<$(git config user.email)>//p\" | column -s '\t' -t ; } ; f"
+[core]
+  editor = /usr/bin/vim
+  autocrlf = input
+[user]
+	name = Eric Hauser
+	email = ewhauser@gmail.com
+	signingkey = 20E949B3CF3DE62F
+[color]
+  ui = auto
+[branch]
+	autosetuprebase = always
+[push]
+	default = simple
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[commit]
+	gpgsign = false
+[merge]
+	tool = p4mergetool
+[mergetool "p4mergetool"]
+	cmd = /Applications/p4merge.app/Contents/Resources/launchp4merge $PWD/$BASE $PWD/$REMOTE $PWD/$LOCAL $PWD/$MERGED
+	trustExitCode = false
+[mergetool]
+    keepBackup = false
+[pager]
+    diff = diff-so-fancy | less --tabs=1,5 -RFX
+    show = diff-so-fancy | less --tabs=1,5 -RFX
+[url "ssh://git@github.com/"]
+	insteadOf = https://github.com/

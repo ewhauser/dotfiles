@@ -1,0 +1,10 @@
+# ~/.tmuxinator/eng_guidebook.yml
+#
+name: eng_guidebook
+root: ~/working/eng_guidebook/docs
+
+pre: open http://127.0.0.1:8000/
+
+windows:
+    - editor: vim index.rst
+    - sphinx-auto: make livehtml
