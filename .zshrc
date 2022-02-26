@@ -112,8 +112,6 @@ function gfp() {
   git push --force origin `git rev-parse --abbrev-ref HEAD`
 }
 
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
 unsetopt ALWAYS_LAST_PROMPT
 
 if [[ "$TERM" != "screen-256color" ]]
