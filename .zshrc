@@ -112,8 +112,6 @@ function gfp() {
   git push --force origin `git rev-parse --abbrev-ref HEAD`
 }
 
-unsetopt ALWAYS_LAST_PROMPT
-
 if [[ "$TERM" != "screen-256color" ]]
 then
     tmux attach-session -t "$USER" || tmux new-session -s "$USER"
