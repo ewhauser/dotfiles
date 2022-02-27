@@ -124,6 +124,6 @@ export KUBE_EDITOR=vim
 
 export PYTEST_ADDOPTS="-v"
 
-zstyle ':completion:*' use-cache on
-zstyle ':completion:*' cache-path ~/.zsh/cache
-setupsolarized
+#zstyle ':completion:*' use-cache on
+#zstyle ':completion:*' cache-path ~/.zsh/cache
+#setupsolarized
