@@ -55,7 +55,7 @@ HYPHEN_INSENSITIVE="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git macos aws brew docker gradle mvn npm python sudo wd nvm)
+plugins=(git aws docker npm python sudo wd nvm zsh-dircolors-solarized)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -128,3 +128,4 @@ export PYTEST_ADDOPTS="-v"
 
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path ~/.zsh/cache
+setupsolarized
