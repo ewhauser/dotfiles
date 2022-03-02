@@ -1,0 +1,104 @@
+alias python="/usr/local/bin/python3"
+
+DEFAULT_USER="ewhauser"
+
+_has() {
+    return $( whence $1 >/dev/null )
+}
+
+export PATH="${PATH}:${HOME}/.krew/bin"
+export PATH="/usr/local/opt/findutils/libexec/gnubin:/usr/local/bin:$PATH:/usr/local/sbin:$HOME/bin"
+export PATH="/usr/local/sbin:$PATH"
+export PATH="$PATH:/usr/local/opt/curl/bin"
+# allow locally installed npm binaries to be executed;
+# added by `npm i -g add-local-binaries-to-path`
+export PATH="$PATH:./node_modules/.bin"
+export GOPATH="$HOME/go"
+export PATH="$PATH:$GOROOT/bin:$GOPATH/bin"
+export PATH="$HOME/.cargo/bin:$PATH"
+
+source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+unsetopt ALWAYS_LAST_PROMPT
+
+export VIRTUALENVWRAPPER_PYTHON="/usr/local/bin/python3"
+export WORKON_HOME="~/.venvs"
+export PROJECTS_HOME="~/working"
+source /usr/local/bin/virtualenvwrapper.sh
+
+export JAVA_HOME=`/usr/libexec/java_home -v 14`
+
+# fzf via Homebrew
+if [ -e /usr/local/opt/fzf/shell/completion.zsh ]; then
+  source /usr/local/opt/fzf/shell/key-bindings.zsh
+  source /usr/local/opt/fzf/shell/completion.zsh
+fi
+
+# fzf via local installation
+if [ -e ~/.fzf ]; then
+  _append_to_path ~/.fzf/bin
+  source ~/.fzf/shell/key-bindings.zsh
+  source ~/.fzf/shell/completion.zsh
+fi
+
+# fzf + ag configuration
+if _has fzf && _has ag; then
+  export FZF_DEFAULT_COMMAND='ag --nocolor -g ""'
+  export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+  export FZF_ALT_C_COMMAND="$FZF_DEFAULT_COMMAND"
+  export FZF_DEFAULT_OPTS='
+  --color fg:242,bg:236,hl:65,fg+:15,bg+:239,hl+:108
+  --color info:108,prompt:109,spinner:108,pointer:168,marker:168
+  '
+fi
+
+source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=10"
+
+function kl() {
+    # {"level":"info","ts":1608242924.569831,"caller":"server/server.go:589","msg":"rest gateway running on port: 8080","service":"public-api-data-exports","env":"public-api-data-exports","version":"b8c5813167b595f567785be5fe4a5
+    # 8692da977b9"}
+    kubectl logs $* | jq -R --raw-output '. as $raw | try (fromjson | .ts |= todateiso8601 | "\(.ts) - \(.caller) - \(.severity) - \(.msg)") catch $raw'
+}
+
+function klt() {
+    kubectl logs --follow $* | jq -R --raw-output '. as $raw | try (fromjson | .timestamp.seconds |= todateiso8601 | "\(.timestamp.seconds) - \(.filename): \(.lineno) - \(.severity) - \(.message)") catch $raw'
+}
+
+function kfp {
+    kubectl get pods -n public-api-data-exports | awk '/public-api-data-exports/ {print $1;exit}'
+}
+
+alias docker-stop="docker stop $(docker ps -a -q)"
+
+export LDFLAGS="-L$(brew --prefix openssl@1.1)/lib"
+export CFLAGS="-I$(brew --prefix openssl@1.1)/include"
+
+export NODE_OPTIONS="--max_old_space_size=4096"
+
+# Export nvm completion settings for zsh-nvm plugin
+export NVM_COMPLETION=true
+export NVM_LAZY_LOAD=true
+export NVM_DIR="$HOME/.nvm"
+[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+
+if type brew &>/dev/null; then
+    FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
+
+    autoload -Uz compinit
+    compinit
+fi
+
+alias tf="terraform"
+
+function ghd() {
+    gh repo list cadencerpm -l 1000 | grep $1 | cut -d$'\t'  -f2
+}
+
+if which ruby >/dev/null && which gem >/dev/null; then
+    PATH="$(ruby -r rubygems -e 'puts Gem.user_dir')/bin:$PATH"
+fi
+
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path ~/.zsh/cache

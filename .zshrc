@@ -55,9 +55,9 @@ HYPHEN_INSENSITIVE="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git aws docker npm python sudo wd nvm zsh-dircolors-solarized)
+plugins=(git macos aws docker npm python sudo wd nvm zsh-colors-solarized)
 
-source $ZSH/oh-my-zsh.sh
+source "$ZSH"/oh-my-zsh.sh
 
 DISABLE_AUTO_UPDATE=true
 DISABLE_UPDATE_PROMPT=true
@@ -78,6 +78,10 @@ alias ls="/bin/ls -G"
 alias ssh="ssh -A -o stricthostkeychecking=no"
 alias cls="tput clear"
 alias clear="tput clear"
+
+if [[ `uname` == "Darwin"  ]]; then
+    source "$HOME"/.zshrc.mac
+fi
 
 function gpr() {
   echo 'git pull --rebase origin' `git rev-parse --abbrev-ref HEAD`
@@ -103,12 +107,9 @@ alias mux="tmuxinator"
 alias muxd='tmux attach-session -t "$USER" || tmux new-session -s "$USER"'
 
 export KUBE_EDITOR=vim
-
 export PYTEST_ADDOPTS="-v"
+[[ /usr/local/bin/kubectl  ]] && source <(kubectl completion zsh)
 
-#zstyle ':completion:*' use-cache on
-#zstyle ':completion:*' cache-path ~/.zsh/cache
-#setupsolarized
-
-source <(kubectl completion zsh)  # setup autocomplete in zsh into the current shell
-echo "[[ $commands[kubectl]  ]] && source <(kubectl completion zsh)" >> ~/.zshrc # add autocomplete permanently to your zsh shell
+if [[ -x .zshrc.secrets ]]; then
+  source .zshrc.secrets
+fi
