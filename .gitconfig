@@ -26,7 +26,14 @@
 	process = git-lfs filter-process
 	required = true
 [commit]
-	gpgsign = false
-[pager]
-    diff = diff-so-fancy | less --tabs=1,5 -RFX
-    show = diff-so-fancy | less --tabs=1,5 -RFX
+    gpgsign = false
+[core]
+    pager = delta --minus-style 'red bold' --minus-emph-style 'red bold 52' --zero-style 'normal' --plus-style 'green bold' --plus-emph-style 'green bold 22' --hunk-header-style 'bold syntax' --hunk-header-decoration-style 'bold magenta box' --file-style 'bold yellow' --file-decoration-style 'bold yellow underoverline' --commit-style 'bold yellow'
+[interactive]
+    diffFilter = delta --color-only --minus-style 'red bold' --minus-emph-style 'red bold 52' --zero-style 'normal' --plus-style 'green bold' --plus-emph-style 'green bold 22' --hunk-header-style 'bold syntax' --hunk-header-decoration-style 'bold magenta box' --file-style 'bold yellow' --file-decoration-style 'bold yellow underoverline' --commit-style 'bold yellow'
+[delta]
+    navigate = true  # use n and N to move between diff sections
+[merge]
+    conflictstyle = diff3
+[diff]
+    colorMoved = default
