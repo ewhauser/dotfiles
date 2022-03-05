@@ -55,7 +55,9 @@ HYPHEN_INSENSITIVE="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-alias dircolors='gdircolors'
+if [[ `uname` == "Darwin"  ]]; then
+  alias dircolors='gdircolors'
+fi
 plugins=(git macos aws docker npm python sudo wd nvm zsh-dircolors-solarized zsh-autosuggestions)
 
 source "$ZSH"/oh-my-zsh.sh
