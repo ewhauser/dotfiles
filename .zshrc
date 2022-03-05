@@ -55,7 +55,8 @@ HYPHEN_INSENSITIVE="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git macos aws docker npm python sudo wd nvm zsh-colors-solarized)
+alias dircolors='gdircolors'
+plugins=(git macos aws docker npm python sudo wd nvm zsh-dircolors-solarized zsh-autosuggestions)
 
 source "$ZSH"/oh-my-zsh.sh
 
@@ -74,7 +75,7 @@ setopt share_history # share command history data
 
 EDITOR="vim"
 
-alias ls="/bin/ls -G"
+alias ls="/bin/ls -G --color"
 alias ssh="ssh -A -o stricthostkeychecking=no"
 alias cls="tput clear"
 alias clear="tput clear"
