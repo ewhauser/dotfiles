@@ -58,7 +58,7 @@ HYPHEN_INSENSITIVE="true"
 if [[ `uname` == "Darwin"  ]]; then
   alias dircolors='gdircolors'
 fi
-plugins=(git macos aws docker npm python sudo wd nvm zsh-dircolors-solarized zsh-autosuggestions bazel)
+plugins=(git macos aws docker npm python sudo wd nvm zsh-dircolors-solarized zsh-autosuggestions fzf-zsh-plugin bazel)
 
 source "$ZSH"/oh-my-zsh.sh
 
