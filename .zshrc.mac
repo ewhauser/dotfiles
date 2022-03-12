@@ -1,4 +1,5 @@
-alias python="/usr/local/bin/python3"
+BREW_PREFIX=$(brew --prefix)
+alias python="${BREW_PREFIX}/bin/python3"
 
 DEFAULT_USER="ewhauser"
 
@@ -7,9 +8,9 @@ _has() {
 }
 
 export PATH="${PATH}:${HOME}/.krew/bin"
-export PATH="/usr/local/opt/findutils/libexec/gnubin:/usr/local/bin:$PATH:/usr/local/sbin:$HOME/bin"
-export PATH="/usr/local/sbin:$PATH"
-export PATH="$PATH:/usr/local/opt/curl/bin"
+export PATH="${BREW_PREFIX}/opt/findutils/libexec/gnubin:/usr/local/bin:$PATH:/usr/local/sbin:$HOME/bin"
+export PATH="${BREW_PREFIX}/sbin:$PATH"
+export PATH="$PATH:${BREW_PREFIX}/opt/curl/bin"
 # allow locally installed npm binaries to be executed;
 # added by `npm i -g add-local-binaries-to-path`
 export PATH="$PATH:./node_modules/.bin"
@@ -17,18 +18,16 @@ export GOPATH="$HOME/go"
 export PATH="$PATH:$GOROOT/bin:$GOPATH/bin"
 export PATH="$HOME/.cargo/bin:$PATH"
 
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source ${BREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 unsetopt ALWAYS_LAST_PROMPT
 
-export VIRTUALENVWRAPPER_PYTHON="/usr/local/bin/python3"
+export VIRTUALENVWRAPPER_PYTHON="${BREW_PREFIX}/bin/python3"
 export WORKON_HOME="~/.venvs"
 export PROJECTS_HOME="~/working"
-source /usr/local/bin/virtualenvwrapper.sh
+source ${BREW_PREFIX}/bin/virtualenvwrapper.sh
 
-export JAVA_HOME=`/usr/libexec/java_home -v 14`
-
-source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source ${BREW_PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=10"
 
 function kl() {
@@ -56,8 +55,8 @@ export NODE_OPTIONS="--max_old_space_size=4096"
 export NVM_COMPLETION=true
 export NVM_LAZY_LOAD=true
 export NVM_DIR="$HOME/.nvm"
-[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
-[ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+[ -s "${BREW_PREFIX}/local/opt/nvm/nvm.sh" ] && . "${BREW_PREFIX}/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "${BREW_PREFIX}/opt/nvm/etc/bash_completion.d/nvm" ] && . "${BREW_PREFIX}/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
 if type brew &>/dev/null; then
     FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
