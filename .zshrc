@@ -81,6 +81,7 @@ alias ls="/bin/ls -G --color"
 alias ssh="ssh -A -o stricthostkeychecking=no"
 alias cls="tput clear"
 alias clear="tput clear"
+alias vim="nvim"
 
 if [[ `uname` == "Darwin"  ]]; then
     source "$HOME"/.zshrc.mac
