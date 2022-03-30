@@ -82,6 +82,7 @@ alias ssh="ssh -A -o stricthostkeychecking=no"
 alias cls="tput clear"
 alias clear="tput clear"
 alias vim="nvim"
+alias gcsc="gh codespace create -r cadencerpm/cerebro -b main -m premiumLinux"
 
 if [[ `uname` == "Darwin"  ]]; then
     source "$HOME"/.zshrc.mac
