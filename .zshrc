@@ -103,8 +103,7 @@ function gfp() {
   git push --force origin `git rev-parse --abbrev-ref HEAD`
 }
 
-if [[ "$TERM" != "screen-256color" ]]
-then
+if [[ "$TERM" != "screen-256color" || ! -z "$NVIM_LISTEN_ADDRESS" ]]; then
     tmux attach-session -t "$USER" || tmux new-session -s "$USER"
 fi
 
