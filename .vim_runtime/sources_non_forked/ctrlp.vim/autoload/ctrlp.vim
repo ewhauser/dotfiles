@@ -330,6 +330,10 @@ fu! s:Open()
 endf
 
 fu! s:Close()
+	if has('patch-9.0.0115') && exists('s:cmdheight')
+		let &cmdheight = s:cmdheight
+		unlet s:cmdheight
+	en
 	cal s:async_glob_abort(0)
 	cal s:buffunc(0)
 	if winnr('$') == 1
@@ -756,8 +760,8 @@ fu! s:Render(lines, pat)
 	en
 	if s:mw_order == 'btt' | cal reverse(lines) | en
 	let s:lines = copy(lines)
-	if s:maxfiles && len(lines) > s:maxfiles
-		let lines = lines[:s:maxfiles]
+	if s:nolim == 0 && len(lines) > height
+		let lines = lines[:height-1]
 	en
 	if has('patch-8.1-0') && s:flfunc ==# 's:formatline(v:val)'
 		cal map(lines, function('s:formatline2', [s:curtype()]))
@@ -2844,6 +2848,11 @@ fu! ctrlp#init(type, ...)
 	let shouldExitSingle = index(s:opensingle, curName[0])>=0 || index(s:opensingle, curName[1])>=0
 	if shouldExitSingle && s:ExitIfSingleCandidate()
 		retu 0
+	en
+
+	if has('patch-9.0.0115') && &cmdheight == 0
+		let s:cmdheight = &cmdheight
+		set cmdheight=1
 	en
 	cal s:BuildPrompt(1)
 	if s:keyloop | cal s:KeyLoop() | en

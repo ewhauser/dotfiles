@@ -4,5 +4,5 @@ rm -rf ./.config/nvim/pack/github/start/copilot.vim \
     && rm -rf ./.config/nvim/pack/github/start/copilot.vim/.git
 
 pushd .vim_runtime
-python update_vim_runtime.py
+python update_plugins.py
 popd

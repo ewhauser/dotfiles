@@ -56,9 +56,10 @@ if has('nvim-0.5') && luaeval("pcall(require, 'gitsigns')")
   hi! link GitSignsChange   DiffChange
   hi! link GitSignsChangeLn DiffChange
   hi! link GitSignsChangeNr DiffChange
-  hi! link GitSignsDelete   DiffDelete
-  hi! link GitSignsDeleteLn DiffDelete
-  hi! link GitSignsDeleteNr DiffDelete
+
+  hi! link GitSignsDelete   DraculaRed
+  hi! link GitSignsDeleteLn DraculaRed
+  hi! link GitSignsDeleteNr DraculaRed
 endif
 " }}}
 " Tree-sitter: {{{
@@ -68,6 +69,8 @@ endif
 " specification.
 " https://github.com/nvim-treesitter/nvim-treesitter/blob/master/plugin/nvim-treesitter.vim
 if exists('g:loaded_nvim_treesitter')
+  " deprecated TS* highlight groups
+  " see https://github.com/nvim-treesitter/nvim-treesitter/pull/3656
   " # Misc
   hi! link TSPunctSpecial Special
   " # Constants
@@ -97,6 +100,100 @@ if exists('g:loaded_nvim_treesitter')
   " HTML and JSX tag attributes. By default, this group is linked to TSProperty,
   " which in turn links to Identifer (white).
   hi! link TSTagAttribute DraculaGreenItalic
+
+  if has('nvim-0.8.1')
+    " # Misc
+    hi! link @punctuation.delimiter Delimiter
+    hi! link @punctuation.bracket DraculaFg
+    hi! link @punctuation.special Special
+    hi! link @punctuation Delimiter
+    " # Constants
+    hi! link @constant Constant
+    hi! link @constant.builtin Constant
+    hi! link @constant.macro Macro
+    hi! link @string.regex @string.special
+    hi! link @string.escape @string.special
+    hi! link @string String
+    hi! link @string.regexp @string.special
+    hi! link @string.special SpecialChar
+    hi! link @string.special.symbol DraculaPurple
+    hi! link @string.special.url Underlined
+    hi! link @symbol DraculaPurple
+    hi! link @annotation DraculaYellow
+    hi! link @attribute DraculaGreenItalic
+    hi! link @namespace Structure
+    hi! link @module Structure
+    hi! link @module.builtin Special
+    " # Functions
+    hi! link @function.builtin DraculaCyan
+    hi! link @funcion.macro Function
+    hi! link @function Function
+    hi! link @parameter DraculaOrangeItalic
+    hi! link @parameter.reference DraculaOrange
+    hi! link @field DraculaOrange
+    hi! link @property DraculaFg
+    hi! link @constructor DraculaCyan
+    " # Keywords
+    hi! link @label DraculaPurpleItalic
+    hi! link @keyword.function DraculaPink
+    hi! link @keyword.operator Operator
+    hi! link @keyword Keyword
+    hi! link @exception DraculaPurple
+    hi! link @operator Operator
+    " # Types
+    hi! link @type Type
+    hi! link @type.builtin Special
+    hi! link @character Character
+    hi! link @character.special SpecialChar
+    hi! link @boolean Boolean
+    hi! link @number Number
+    hi! link @number.float Float
+    " # Variable
+    hi! link @variable DraculaFg
+    hi! link @variable.builtin DraculaPurpleItalic
+    hi! link @variable.parameter DraculaOrangeItalic
+    hi! link @variable.member  DraculaOrange
+    " # Text
+    hi! link @text DraculaFg
+    hi! link @text.strong DraculaFgBold
+    hi! link @text.emphasis DraculaFg
+    hi! link @text.underline Underlined
+    hi! link @text.title DraculaYellow
+    hi! link @text.literal DraculaYellow
+    hi! link @text.uri DraculaYellow
+    hi! link @text.diff.add DiffAdd
+    hi! link @text.diff.delete DiffDelete
+
+    hi! link @markup.strong DraculaFgBold
+    hi! link @markup.italic DraculaFgItalic
+    hi! link @markup.strikethrough DraculaFgStrikethrough
+    hi! link @markup.underline Underlined
+
+    hi! link @markup Special
+    hi! link @markup.heading DraculaYellow
+    hi! link @markup.link Underlined
+    hi! link @markup.link.uri DraculaYellow
+    hi! link @markup.link.label SpecialChar
+    hi! link @markup.raw DraculaYellow
+    hi! link @markup.list Special
+
+    hi! link @comment Comment
+    hi! link @comment.error DiagnosticError
+    hi! link @comment.warning DiagnosticWarn
+    hi! link @comment.note DiagnosticInfo
+    hi! link @comment.todo Todo
+
+    hi! link @diff.plus Added
+    hi! link @diff.minus Removed
+    hi! link @diff.delta Changed
+
+    " # Tags
+    hi! link @tag DraculaCyan
+    hi! link @tag.delimiter DraculaFg
+    " HTML and JSX tag attributes. By default, this group is linked to TSProperty,
+    " which in turn links to Identifer (white).
+    hi! link @tag.attribute DraculaGreenItalic
+  endif
 endif
 " }}}
 " nvim-cmp: {{{

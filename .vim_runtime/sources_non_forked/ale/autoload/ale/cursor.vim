@@ -11,9 +11,11 @@ let g:ale_echo_msg_format = get(g:, 'ale_echo_msg_format', '%code: %%s')
 let s:cursor_timer = -1
 
 " A wrapper for echon so we can test messages we echo in Vader tests.
-function! ale#cursor#Echon(message) abort
-    " no-custom-checks
-    echon a:message
+function! ale#cursor#Echom(message) abort
+    if mode() is# 'n'
+        " no-custom-checks
+        exec "norm! :echom a:message\n"
+    endif
 endfunction
 
 function! ale#cursor#TruncatedEcho(original_message) abort
@@ -36,14 +38,7 @@ function! ale#cursor#TruncatedEcho(original_message) abort
         silent! setlocal shortmess+=T
 
         try
-            " echon will not display the message if it exceeds the width of
-            " the window
-            if &columns < strdisplaywidth(l:message)
-                " Truncate message longer than window width with trailing '...'
-                let l:message = l:message[:&columns - 5] . '...'
-            endif
-
-            call ale#cursor#Echon(l:message)
+            call ale#cursor#Echom(l:message)
         catch /^Vim\%((\a\+)\)\=:E523/
             " Fallback into manual truncate (#1987)
             let l:winwidth = winwidth(0)

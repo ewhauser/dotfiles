@@ -47,6 +47,8 @@ sudo make install
 vim-addon-manager install markdown
 ```
 
+If you are using a package manager with semver support (like [lazy.nvim](https://github.com/folke/lazy.nvim)) make sure you are following the master branch (see https://github.com/preservim/vim-markdown/issues/616).
+
 If you are not using any package manager, download the [tarball](https://github.com/preservim/vim-markdown/archive/master.tar.gz) and do this:
 
 ```sh
@@ -66,8 +68,10 @@ The following commands are useful to open and close folds:
 - `zR`: opens all folds
 - `zm`: increases fold level throughout the buffer
 - `zM`: folds everything all the way
-- `za`: open a fold your cursor is on
-- `zA`: open a fold your cursor is on recursively
+- `za`: toggle a fold your cursor is on
+- `zA`: toggle a fold your cursor is on recursively
+- `zo`: open a fold your cursor is on
+- `zO`: open a fold your cursor is on recursively
 - `zc`: close a fold your cursor is on
 - `zC`: close a fold your cursor is on recursively
 
@@ -262,8 +266,6 @@ The following options control which syntax extensions will be turned on. They ar
 
     Highlight TOML front matter as used by [Hugo](https://gohugo.io/content/front-matter/).
 
-    TOML syntax highlight requires [vim-toml](https://github.com/cespare/vim-toml).
-
         let g:vim_markdown_toml_frontmatter = 1
 
 #### JSON Front Matter
@@ -271,8 +273,6 @@ The following options control which syntax extensions will be turned on. They ar
 -   `g:vim_markdown_json_frontmatter`
 
     Highlight JSON front matter as used by [Hugo](https://gohugo.io/content/front-matter/).
-
-    JSON syntax highlight requires [vim-json](https://github.com/elzr/vim-json).
 
         let g:vim_markdown_json_frontmatter = 1
 
@@ -350,6 +350,27 @@ The following options control which syntax extensions will be turned on. They ar
     By default when following a link the target file will be opened in your current buffer.  This behavior can change if you prefer using splits or tabs by using the `vim_markdown_edit_url_in` variable.  Possible values are `tab`, `vsplit`, `hsplit`, `current` opening in a new tab, vertical split, horizontal split, and current buffer respectively.  Defaults to current buffer if not set:
 
         let g:vim_markdown_edit_url_in = 'tab'
+
+### Borderless tables
+
+-   `g:vim_markdown_borderless_table`
+
+    Add support for borderless tables, such as:
+    ```
+    header 1|header 2
+    --|--
+    data 1|data 2
+    ```
+    if set to `1`:
+
+        let g:vim_markdown_borderless_table = 1
+
+    the table would be formatted as usual:
+    ```
+    | header 1 | header 2 |
+    |----------|----------|
+    | data 1   | data 2   |
+    ```
 
 ## Mappings
 
