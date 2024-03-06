@@ -77,7 +77,7 @@ setopt share_history # share command history data
 
 EDITOR="vim"
 
-alias ls="/bin/ls -G --color"
+#alias ls="/bin/ls -G --color"
 alias ssh="ssh -A -o stricthostkeychecking=no"
 alias cls="tput clear"
 alias clear="tput clear"
@@ -122,3 +122,31 @@ export PYTEST_ADDOPTS="-v"
 if [[ -x .zshrc.secrets ]]; then
   source .zshrc.secrets
 fi
+
+eval "$(zoxide init zsh)"
+
+alias biob="bazel info output_base"
+alias bie="echo $(bazel info output_base)/external"
+alias bier="bazel info execution_root"
+alias bibb="bazel info bazel-bin"
+alias bzl=bazel
+
+eval "$(github-copilot-cli alias -- "$0")"
+
+
+alias rg='rg --hidden'
+z mono
+
+function frg {
+    result=$(rg --ignore-case --color=always --line-number --no-heading "$@" |
+        fzf --ansi \
+            --color 'hl:-1:underline,hl+:-1:underline:reverse' \
+            --delimiter ':' \
+            --preview "bat --color=always {1} --theme='Solarized (light)' --highlight-line {2}" \
+            --preview-window 'up,60%,border-bottom,+{2}+3/3,~3')
+    file=${result%%:*}
+    linenumber=$(echo "${result}" | cut -d: -f2)
+    if [[ -n "$file" ]]; then
+              $EDITOR +"${linenumber}" "$file"
+    fi
+}
