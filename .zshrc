@@ -85,7 +85,6 @@ alias vim="nvim"
 alias gcsc="gh codespace create -r cadencerpm/cerebro -b main -m premiumLinux"
 alias cat="bat"
 alias ls="eza"
-alias z="zoxide"
 
 if [[ `uname` == "Darwin"  ]]; then
     source "$HOME"/.zshrc.mac
