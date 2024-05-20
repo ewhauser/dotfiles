@@ -37,3 +37,6 @@
     conflictstyle = diff3
 [diff]
     colorMoved = default
+[user]
+	name = Eric Hauser
+	email = ewhauser@gmail.com

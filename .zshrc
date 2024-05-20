@@ -149,3 +149,9 @@ function frg {
               $EDITOR +"${linenumber}" "$file"
     fi
 }
+
+RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
+
+eval $(mirrord completions zsh)
+
+source ~/.zsh-autoenv/autoenv.zsh
