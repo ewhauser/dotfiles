@@ -1,42 +1,74 @@
 [alias]
-  ci = commit
-  st = status
-  co = checkout
-  amend = commit --amend
-  oneline = log --pretty=oneline
-  br = branch
-  la = log --pretty=\"format:%ad %h (%an): %s\" --date=short
-  lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
-  abbr = "!sh -c 'git rev-list --all | grep ^$1 | while read commit; do git --no-pager log -n1 --pretty=format:\"%H %ci %an %s%n\" $commit; done' -"
-  branches = branch -a --color -v
-  lc = log ORIG_HEAD.. --stat --no-merges
-  mybranches = "!f() { if test $# = 0 ; then set -- refs/remotes ; fi ; git for-each-ref --format='%(authordate:relative)\t%(refname:short)\t%(authoremail)' --sort=authordate \"$@\" | sed -ne \"s/\t<$(git config user.email)>//p\" | column -s '\t' -t ; } ; f"
+	ci = commit
+	st = status
+	co = checkout
+	amend = commit --amend
+	oneline = log --pretty=oneline
+	br = branch
+	la = log --pretty=\"format:%ad %h (%an): %s\" --date=short
+	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+	abbr = "!sh -c 'git rev-list --all | grep ^$1 | while read commit; do git --no-pager log -n1 --pretty=format:\"%H %ci %an %s%n\" $commit; done' -"
+	branches = branch -a --color -v
+	lc = log ORIG_HEAD.. --stat --no-merges
+	mybranches = "!f() { if test $# = 0 ; then set -- refs/remotes ; fi ; git for-each-ref --format='%(authordate:relative)\t%(refname:short)\t%(authoremail)' --sort=authordate \"$@\" | sed -ne \"s/\t<$(git config user.email)>//p\" | column -s '\t' -t ; } ; f"
+[branch]
+	sort = -committerdate   
 [core]
-  editor = /usr/bin/vim
-  autocrlf = input
+	editor = /usr/bin/vim
+	autocrlf = input
+	pager = delta
 [color]
-  ui = auto
+	ui = auto
+[column]
+	ui = auto
 [branch]
 	autosetuprebase = always
+[init]
+	defaultBranch = main      
+[pull]
+	rebase = true
 [push]
 	default = simple
+	autoSetupRemote = true
+	followTags = true
+[fetch]
+	prune = true
+	pruneTags = true
+	all = true
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
 [commit]
-    gpgsign = false
-[core]
-    pager = delta
+	gpgsign = false
 [interactive]
-    diffFilter = delta --color-only
+	diffFilter = delta --color-only
 [delta]
-    navigate = true  # use n and N to move between diff sections
+	navigate = true  # use n and N to move between diff sections
 [merge]
-    conflictstyle = diff3
+	conflictstyle = diff3
 [diff]
-    colorMoved = default
+	algorithm = histogram
+	colorMoved = plain
+	mnemonicPrefix = true
+	renames = true
+[tag]
+	sort = version:refname  
 [user]
 	name = Eric Hauser
 	email = ewhauser@gmail.com
+[help]
+	autocorrect = prompt
+[commit]
+	verbose = true
+[rerere]
+	enabled = true
+	autoupdate = true
+[core]
+	excludesfile = ~/.gitignore
+[rebase]
+	autoSquash = true
+	autoStash = true
+	updateRefs = true
+
