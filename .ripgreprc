@@ -1,0 +1,10 @@
+--smart-case
+
+--type-add=proto:*.proto
+
+--glob=!.git/*
+--glob=!*.svg
+--glob=!*.png
+--glob=!*.jpg
+--glob=!*.pdf
+--glob=!node_modules/
