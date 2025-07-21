@@ -1,4 +1,7 @@
-ZSH_DISABLE_COMPFIX=true
+DISABLE_MAGIC_FUNCTIONS="true"
+DISABLE_COMPFIX="true"
+ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE="20"
+ZSH_AUTOSUGGEST_USE_ASYNC=1
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
@@ -41,7 +44,7 @@ DISABLE_AUTO_UPDATE="true"
 # Uncomment the following line if you want to disable marking untracked files
 # under VCS as dirty. This makes repository status check for large repositories
 # much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
+DISABLE_UNTRACKED_FILES_DIRTY="true"
 
 # Uncomment the following line if you want to change the command execution time
 # stamp shown in the history command output.
@@ -58,11 +61,10 @@ DISABLE_AUTO_UPDATE="true"
 if [[ `uname` == "Darwin"  ]]; then
   alias dircolors='gdircolors'
 fi
-plugins=(git macos aws docker npm python sudo wd nvm zsh-dircolors-solarized zsh-autosuggestions fzf-zsh-plugin bazel)
+plugins=(git macos zsh-dircolors-solarized fzf-zsh-plugin)
 
 source "$ZSH"/oh-my-zsh.sh
 
-DISABLE_AUTO_UPDATE=true
 DISABLE_UPDATE_PROMPT=true
 
 # User configuration
@@ -125,13 +127,9 @@ fi
 eval "$(zoxide init zsh)"
 
 alias biob="bazel info output_base"
-alias bie="echo $(bazel info output_base)/external"
 alias bier="bazel info execution_root"
 alias bibb="bazel info bazel-bin"
 alias bzl=bazel
-
-eval "$(github-copilot-cli alias -- "$0")"
-
 
 alias rg='rg --hidden'
 z mono
