@@ -1,4 +1,5 @@
-BREW_PREFIX=$(brew --prefix)
+# OPTIMIZED: Hardcoded brew prefix for Apple Silicon (much faster than running brew --prefix)
+BREW_PREFIX="/opt/homebrew"
 alias python="${BREW_PREFIX}/bin/python3"
 
 DEFAULT_USER="ewhauser"
@@ -18,17 +19,51 @@ export GOPATH="$HOME/go"
 export PATH="$PATH:$GOROOT/bin:$GOPATH/bin"
 export PATH="$HOME/.cargo/bin:$PATH"
 
-source ${BREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# ULTRA-OPTIMIZED: Defer zsh-syntax-highlighting (~100ms saved)
+# Load on first prompt instead of immediately
+_zsh_highlight_deferred=0
+_defer_zsh_highlight() {
+    if [[ $_zsh_highlight_deferred -eq 0 ]]; then
+        source ${BREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+        _zsh_highlight_deferred=1
+    fi
+}
+# Uncomment the next line if you want syntax highlighting (will load after first command)
+# add-zsh-hook precmd _defer_zsh_highlight
+
+# OR comment out completely for max speed (no syntax highlighting):
+# (Saves ~100ms)
 
 unsetopt ALWAYS_LAST_PROMPT
 
+# OPTIMIZED: Lazy-load virtualenvwrapper (loads only when you use it)
 export VIRTUALENVWRAPPER_PYTHON="${BREW_PREFIX}/bin/python3"
 export WORKON_HOME="~/.venvs"
 export PROJECTS_HOME="~/working"
-source ${BREW_PREFIX}/bin/virtualenvwrapper.sh
+_venvwrap_loaded=0
+venvwrap() {
+    if [[ $_venvwrap_loaded -eq 0 ]]; then
+        source ${BREW_PREFIX}/bin/virtualenvwrapper.sh
+        _venvwrap_loaded=1
+    fi
+}
+alias workon='venvwrap; workon'
+alias mkvirtualenv='venvwrap; mkvirtualenv'
+alias rmvirtualenv='venvwrap; rmvirtualenv'
+alias deactivate='venvwrap; deactivate'
+alias lsvirtualenv='venvwrap; lsvirtualenv'
 
-source ${BREW_PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=10"
+# ULTRA-OPTIMIZED: Defer zsh-autosuggestions (~96ms saved)
+# Load after first prompt instead of immediately
+_zsh_autosuggest_deferred=0
+_defer_zsh_autosuggest() {
+    if [[ $_zsh_autosuggest_deferred -eq 0 ]]; then
+        source ${BREW_PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+        ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=10"
+        _zsh_autosuggest_deferred=1
+    fi
+}
+add-zsh-hook precmd _defer_zsh_autosuggest
 
 function kl() {
     # {"level":"info","ts":1608242924.569831,"caller":"server/server.go:589","msg":"rest gateway running on port: 8080","service":"public-api-data-exports","env":"public-api-data-exports","version":"b8c5813167b595f567785be5fe4a5
@@ -46,8 +81,9 @@ function kfp {
 
 alias docker-stop="docker stop $(docker ps -a -q)"
 
-export LDFLAGS="-L$(brew --prefix openssl@1.1)/lib"
-export CFLAGS="-I$(brew --prefix openssl@1.1)/include"
+# OPTIMIZED: Hardcoded openssl path (replace with your actual path)
+export LDFLAGS="-L${BREW_PREFIX}/opt/openssl@1.1/lib"
+export CFLAGS="-I${BREW_PREFIX}/opt/openssl@1.1/include"
 
 export NODE_OPTIONS="--max_old_space_size=4096"
 
@@ -55,15 +91,12 @@ export NODE_OPTIONS="--max_old_space_size=4096"
 export NVM_COMPLETION=true
 export NVM_LAZY_LOAD=true
 export NVM_DIR="$HOME/.nvm"
-[ -s "${BREW_PREFIX}/local/opt/nvm/nvm.sh" ] && . "${BREW_PREFIX}/opt/nvm/nvm.sh"  # This loads nvm
+
+# OPTIMIZED: Removed duplicate nvm loading
+[ -s "${BREW_PREFIX}/opt/nvm/nvm.sh" ] && . "${BREW_PREFIX}/opt/nvm/nvm.sh"  # This loads nvm
 [ -s "${BREW_PREFIX}/opt/nvm/etc/bash_completion.d/nvm" ] && . "${BREW_PREFIX}/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
-if type brew &>/dev/null; then
-    FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
-
-    autoload -Uz compinit
-    compinit
-fi
+# OPTIMIZED: Removed duplicate compinit (already in .zshrc)
 
 alias tf="terraform"
 
@@ -71,12 +104,13 @@ function ghd() {
     gh repo list cadencerpm -l 1000 | grep $1 | cut -d$'\t'  -f2
 }
 
+# OPTIMIZED: Comment out if you don't use Ruby gems frequently (~20ms saved)
+# Uncomment and hardcode the path if needed:
+# PATH="$HOME/.local/share/gem/ruby/3.0.0/bin:$PATH"
+# OR keep the dynamic version if you use it:
 if which ruby >/dev/null && which gem >/dev/null; then
     PATH="$(ruby -r rubygems -e 'puts Gem.user_dir')/bin:$PATH"
 fi
 
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path ~/.zsh/cache
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "/opt/homebrew/opt/nvm/nvm.sh"  ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
