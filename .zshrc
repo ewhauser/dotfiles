@@ -25,12 +25,11 @@ CASE_SENSITIVE="true"
 HYPHEN_INSENSITIVE="true"
 DISABLE_AUTO_UPDATE="true"
 
-# ULTRA-OPTIMIZED: Reduced plugin list (removed zsh-dircolors-solarized which adds overhead)
-# Consider removing fzf-zsh-plugin if you don't use it frequently
+# OPTIMIZED: Plugin list for faster startup
 if [[ `uname` == "Darwin"  ]]; then
   alias dircolors='gdircolors'
 fi
-plugins=(git macos fzf-zsh-plugin)
+plugins=(git macos zsh-dircolors-solarized fzf-zsh-plugin)
 
 source "$ZSH"/oh-my-zsh.sh
 
@@ -127,7 +126,7 @@ fi
 
 # ULTRA-OPTIMIZED: Comment out autoenv if not critical (~24ms saved)
 # Uncomment if you need directory-based environment loading:
-# source ~/.zsh-autoenv/autoenv.zsh
+source ~/.zsh-autoenv/autoenv.zsh
 
 alias gz="bazel run //:gazelle"
 
